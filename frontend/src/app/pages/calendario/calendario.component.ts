@@ -4,11 +4,12 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PlanoService } from '../../services/plano.service';
 import { EquipamentoService } from '../../services/equipamento.service';
+import { PaginatorComponent } from '../../components/paginator/paginator.component';
 
 @Component({
   selector: 'app-calendario',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, PaginatorComponent],
   template: `
     <div class="p-6 max-w-6xl mx-auto min-h-screen bg-gray-50/30">
       
@@ -23,7 +24,7 @@ import { EquipamentoService } from '../../services/equipamento.service';
       <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mb-8 flex flex-wrap gap-4 items-end">
         <div class="flex-1 min-w-[200px]">
           <label class="block text-[10px] font-bold text-gray-400 uppercase mb-2">Equipamento</label>
-          <select [(ngModel)]="filtroEquipamento" (change)="carregar()"
+          <select [(ngModel)]="filtroEquipamento" (change)="onFiltroEquipamentoChange()"
                   class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-blue-500/10 transition-all text-sm">
             <option [value]="null">Todos os equipamentos</option>
             <option *ngFor="let eq of equipamentos()" [value]="eq.id">{{ eq.nome }} ({{ eq.codigo }})</option>
@@ -89,6 +90,8 @@ import { EquipamentoService } from '../../services/equipamento.service';
         </div>
       </div>
 
+      <app-paginator [page]="page()" [totalPages]="totalPages()" [total]="total()" (pageChange)="onPageChange($event)" />
+
     </div>
   `
 })
@@ -102,6 +105,10 @@ export class CalendarioComponent implements OnInit {
   filtroEquipamento: number | null = null;
   statusAtivo = signal<'todas' | 'atrasadas' | 'hoje' | 'semana' | 'mes'>('todas');
 
+  page = signal(1);
+  totalPages = signal(1);
+  total = signal(0);
+
   ngOnInit(): void {
     this.carregar();
     this.equipamentoService.listar(1, 100).subscribe(res => this.equipamentos.set(res.data ?? []));
@@ -109,11 +116,19 @@ export class CalendarioComponent implements OnInit {
 
   setFiltroStatus(status: 'todas' | 'atrasadas' | 'hoje' | 'semana' | 'mes') {
     this.statusAtivo.set(status);
+    this.page.set(1);
+    this.carregar();
+  }
+
+  onFiltroEquipamentoChange() {
+    this.page.set(1);
     this.carregar();
   }
 
   carregar() {
     const filtros: any = {
+      page: this.page(),
+      limit: 10,
       equipamentoId: this.filtroEquipamento || undefined,
       status: this.statusAtivo() === 'atrasadas' ? 'atrasado' : undefined
     };
@@ -140,7 +155,14 @@ export class CalendarioComponent implements OnInit {
 
     this.planoService.listar(filtros).subscribe(res => {
       this.planos.set(res.data ?? []);
+      this.totalPages.set(res.meta?.totalPages ?? 1);
+      this.total.set(res.meta?.total ?? 0);
     });
+  }
+
+  onPageChange(p: number) {
+    this.page.set(p);
+    this.carregar();
   }
 
   getBadgeInfo(data: string) {

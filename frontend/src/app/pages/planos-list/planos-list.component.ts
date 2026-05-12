@@ -45,7 +45,17 @@ import { PaginatorComponent } from '../../components/paginator/paginator.compone
         <button (click)="setFiltro('atrasados')" 
                 [class]="filtroAtual() === 'atrasados' ? 'bg-red-600 text-white' : 'bg-white text-red-600 border-red-100'"
                 class="px-5 py-2 rounded-xl text-sm font-bold border transition-all shadow-sm">
-          ⚠️ Só Atrasados
+          ⚠️ Atrasados
+        </button>
+        <button (click)="setFiltro('criticos')" 
+                [class]="filtroAtual() === 'criticos' ? 'bg-orange-500 text-white' : 'bg-white text-orange-600 border-orange-100'"
+                class="px-5 py-2 rounded-xl text-sm font-bold border transition-all shadow-sm">
+          ⏳ Críticos
+        </button>
+        <button (click)="setFiltro('em_dia')" 
+                [class]="filtroAtual() === 'em_dia' ? 'bg-green-600 text-white' : 'bg-white text-green-600 border-green-100'"
+                class="px-5 py-2 rounded-xl text-sm font-bold border transition-all shadow-sm">
+          ✅ Em dia
         </button>
       </div>
 
@@ -105,7 +115,7 @@ export class PlanosListComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   planos = signal<any[]>([]);
-  filtroAtual = signal<'todos' | 'atrasados'>('todos');
+  filtroAtual = signal<'todos' | 'atrasados' | 'criticos' | 'em_dia'>('todos');
   idEquipamento = signal<number | null>(null);
   nomeEquipamento = signal<string | null>(null);
   page = signal(1);
@@ -125,7 +135,7 @@ export class PlanosListComponent implements OnInit {
     });
   }
 
-  setFiltro(f: 'todos' | 'atrasados') {
+  setFiltro(f: 'todos' | 'atrasados' | 'criticos' | 'em_dia') {
     this.filtroAtual.set(f);
     this.page.set(1);
     this.carregar();
@@ -134,7 +144,23 @@ export class PlanosListComponent implements OnInit {
   carregar() {
     const filtros: any = { page: this.page(), limit: 9 };
     if (this.idEquipamento()) filtros.equipamentoId = this.idEquipamento();
-    if (this.filtroAtual() === 'atrasados') filtros.status = 'atrasado';
+    
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    if (this.filtroAtual() === 'atrasados') {
+      filtros.status = 'atrasado';
+    } else if (this.filtroAtual() === 'criticos') {
+      const fimCritico = new Date(hoje);
+      fimCritico.setDate(hoje.getDate() + 7);
+      fimCritico.setHours(23, 59, 59, 999);
+      filtros.inicio = hoje.toISOString();
+      filtros.fim = fimCritico.toISOString();
+    } else if (this.filtroAtual() === 'em_dia') {
+      const inicioEmDia = new Date(hoje);
+      inicioEmDia.setDate(hoje.getDate() + 8);
+      filtros.inicio = inicioEmDia.toISOString();
+    }
 
     this.planoService.listar(filtros).subscribe({
       next: (res) => {

@@ -22,11 +22,11 @@ import { AuthService } from '../../services/auth.service';
           <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
             <div class="flex items-center gap-4 mb-4">
               <div class="p-3 bg-red-100 text-red-600 rounded-2xl">⚠️</div>
-              <span class="text-xs font-bold text-gray-400 uppercase">Atrasadas</span>
+              <span class="text-xs font-bold text-gray-400 uppercase">Planos Atrasados</span>
             </div>
             <p class="text-3xl font-black text-gray-900">{{ metricas()?.atrasadas || 0 }}</p>
           </div>
-          <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+          <div class="bg-white p-6 rounded-3xl shadow-sm border border-red-100">
             <div class="flex items-center gap-4 mb-4">
               <div [ngClass]="getConformidadeStatus().bg + ' ' + getConformidadeStatus().text" class="p-3 rounded-2xl">
                 {{ getConformidadeStatus().icon }}
@@ -44,7 +44,7 @@ import { AuthService } from '../../services/auth.service';
           <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
             <div class="flex items-center gap-4 mb-4">
               <div class="p-3 bg-red-100 text-red-600 rounded-2xl">⚠️</div>
-              <span class="text-xs font-bold text-gray-400 uppercase">Atrasadas</span>
+              <span class="text-xs font-bold text-gray-400 uppercase">Planos Atrasados</span>
             </div>
             <p class="text-3xl font-black text-gray-900">{{ metricas()?.atrasadas || 0 }}</p>
           </div>
