@@ -42,6 +42,18 @@ describe('Dashboard', () => {
     const res = await request(app).get('/app/dashboard/disponibilidade').set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(200);
   });
+
+  test('GET /dashboard/top-tecnicos', async () => {
+    const res = await request(app).get('/app/dashboard/top-tecnicos').set('Authorization', `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+  });
+
+  test('GET /dashboard/top-equipamentos', async () => {
+    const res = await request(app).get('/app/dashboard/top-equipamentos').set('Authorization', `Bearer ${token}`);
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+  });
 });
 
 

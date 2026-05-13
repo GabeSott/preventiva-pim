@@ -15,7 +15,7 @@ import { PaginatorComponent } from '../../components/paginator/paginator.compone
       
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Calendário de Manutenções</h1>
+          <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Calendário de manutenções</h1>
           <p class="text-gray-500 font-medium">Cronograma de preventivas ordenado por data prevista.</p>
         </div>
       </div>
@@ -79,7 +79,7 @@ import { PaginatorComponent } from '../../components/paginator/paginator.compone
             </div>
           </div>
 
-          <button [routerLink]="['/app/execucoes/nova']" [queryParams]="{ planoId: plano.id }"
+          <button [routerLink]="['/app/planos/execucoes/nova']" [queryParams]="{ planoId: plano.id }"
                   class="px-6 py-2.5 bg-gray-50 text-gray-900 font-bold rounded-xl hover:bg-gray-900 hover:text-white transition-all active:scale-95">
             Registrar OS
           </button>

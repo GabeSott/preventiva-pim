@@ -27,4 +27,16 @@ export class DashboardController {
       return res.status(200).json(await this.service.getEmDia());
     } catch (err) { next(err); }
   };
+
+  getTopTecnicos = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res.status(200).json(await this.service.getTopTecnicos());
+    } catch (err) { next(err); }
+  };
+
+  getTopEquipamentos = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      return res.status(200).json(await this.service.getTopEquipamentos());
+    } catch (err) { next(err); }
+  };
 }

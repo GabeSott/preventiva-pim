@@ -19,7 +19,7 @@ import { PlanoService } from '../../services/plano.service';
             <h1 class="text-3xl font-bold text-gray-900 tracking-tight">{{ plano().titulo }}</h1>
             <p class="text-gray-500">{{ plano().descricao || 'Sem descrição detalhada.' }}</p>
           </div>
-          <button [routerLink]="['/app/execucoes/nova']" [queryParams]="{ planoId: plano().id }"
+          <button [routerLink]="['/app/planos/execucoes/nova']" [queryParams]="{ planoId: plano().id }"
                   class="px-6 py-3 bg-green-600 text-white font-bold rounded-2xl hover:bg-green-700 transition-all">
             Nova Manutenção
           </button>

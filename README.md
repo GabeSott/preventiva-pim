@@ -151,7 +151,7 @@ descrição, a periodicidade em dias, o técnico responsável padrão e a data d
 execução (que define o proxima_em inicial). O detalhe do plano exibe o histórico de execuções.
 
 Tela 6: Registro de execucao
-Rota: /app/execucoes/nova
+Rota: /app/planos/execucoes/nova
 Formulário de registro de execução. O técnico seleciona o plano (ou chega pela tela de
 calendário), confirma a data de execução, define o status (realizada, parcial, não realizada),
 informa se foi conforme e adiciona observações. Após salvar, o backend recalcula o

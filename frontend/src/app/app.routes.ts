@@ -27,7 +27,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/planos-detail/planos-detail.component').then(m => m.PlanosDetailComponent) 
   },
   { 
-    path: 'app/execucoes/nova', 
+    path: 'app/planos/execucoes/nova', 
     loadComponent: () => import('./pages/execucao-form/execucao-form.component').then(m => m.ExecucaoFormComponent) 
   },
   { 

@@ -119,7 +119,7 @@ import { UsuarioService } from '../../services/usuario.service';
             </button>
             <button type="submit" [disabled]="planoForm.invalid" 
                     class="px-8 py-2.5 bg-gradient-to-r from-[#02464a] to-[#013538] text-white font-bold rounded-xl hover:shadow-lg hover:-translate-y-0.5 active:scale-95 transition-all disabled:opacity-50 shadow-md shadow-emerald-100">
-              {{ idEdicao ? 'Salvar Alterações' : 'Salvar Plano' }}
+              {{ idEdicao ? 'Salvar alterações' : 'Salvar plano' }}
             </button>
           </div>
         </div>

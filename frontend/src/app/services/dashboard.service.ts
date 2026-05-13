@@ -32,4 +32,12 @@ export class DashboardService {
   getEmDia(): Observable<any> {
     return this.http.get<any>(`${this.API}/em-dia`, { headers: this.getHeaders() });
   }
+
+  getTopTecnicos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API}/top-tecnicos`, { headers: this.getHeaders() });
+  }
+
+  getTopEquipamentos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.API}/top-equipamentos`, { headers: this.getHeaders() });
+  }
 }

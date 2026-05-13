@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
@@ -12,9 +12,18 @@ import { AuthService } from './services/auth.service';
       
       <aside *ngIf="router.url !== '/login'" class="w-64 bg-white border-r border-gray-100 flex flex-col shadow-sm">
         <div class="p-6">
-          <div class="flex items-center gap-3 text-[#02464a] mb-10">
-            <img src="assets/img/logo-preventiva.jpeg" alt="Logo" class="w-10 h-10 rounded-xl shadow-lg object-cover">
-            <span class="font-black tracking-tighter text-xl text-gray-900">Preventiva PIM</span>
+          <div class="mb-10">
+            <div class="flex items-center gap-3">
+              <img src="assets/img/logo-preventiva.jpeg" alt="Logo" class="w-11 h-11 rounded-xl shadow-lg object-cover">
+              <h1 class="font-black tracking-tighter text-xl text-gray-900 leading-none">Preventiva PIM</h1>
+            </div>
+            <div class="flex mt-3">
+              <div class="inline-flex items-center gap-2.5 px-3 py-1.5 bg-emerald-50/50 border border-emerald-100 rounded-lg ml-[56px]">
+                <span class="text-[11px] font-black text-[#02464a] antialiased uppercase">{{ dataHora().split(',')[0] }}</span>
+                <div class="w-px h-3 bg-emerald-200"></div>
+                <span class="text-[11px] font-black text-emerald-600 antialiased uppercase">{{ dataHora().split(',')[1]?.trim() }}</span>
+              </div>
+            </div>
           </div>
 
           <nav class="space-y-2">
@@ -104,9 +113,30 @@ import { AuthService } from './services/auth.service';
     </div>
   `
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   public router = inject(Router);
   public authService = inject(AuthService);
+
+  dataHora = signal<string>('');
+  private intervalId: any;
+
+  ngOnInit() {
+    this.atualizarDataHora();
+    // Atualiza a cada minuto para manter o relógio preciso
+    this.intervalId = setInterval(() => this.atualizarDataHora(), 60000);
+  }
+
+  ngOnDestroy() {
+    if (this.intervalId) clearInterval(this.intervalId);
+  }
+
+  atualizarDataHora() {
+    const agora = new Date();
+    const data = agora.toLocaleDateString('pt-BR');
+    const horas = agora.getHours().toString().padStart(2, '0');
+    const minutos = agora.getMinutes().toString().padStart(2, '0');
+    this.dataHora.set(`${data}, ${horas}h${minutos}`);
+  }
 
   logout() {
     this.authService.logout();

@@ -15,7 +15,7 @@ import { PaginatorComponent } from '../../components/paginator/paginator.compone
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h1 class="text-3xl font-bold text-gray-900 tracking-tight">
-            Planos de Manutenção 
+            Planos de manutenção 
             <span *ngIf="nomeEquipamento()" class="text-blue-600"> - {{ nomeEquipamento() }}</span>
           </h1>
           <p class="text-gray-500">Gerencie as rotinas preventivas do PIM em tempo real.</p>
@@ -93,7 +93,8 @@ import { PaginatorComponent } from '../../components/paginator/paginator.compone
                     class="py-3 px-4 bg-blue-50 text-blue-700 font-bold rounded-xl hover:bg-blue-100 transition-all">
               Editar
             </button>
-            <button [routerLink]="['/app/execucoes/nova']" [queryParams]="{ planoId: plano.id }"
+            <button [routerLink]="['/app/planos/execucoes/nova']" [queryParams]="{ planoId: plano.id }"
+
                     class="flex-[2] py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-all">
               Executar
             </button>

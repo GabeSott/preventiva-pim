@@ -141,4 +141,35 @@ export class DashboardService {
       percentualDisponibilidade: total > 0 ? Math.round((disponiveis / total) * 100) : 0
     };
   }
+
+  async getTopTecnicos() {
+    return this.execucaoRepo.createQueryBuilder('exec')
+      .innerJoin('exec.tecnico', 'tecnico')
+      .select('tecnico.nome', 'nome')
+      .addSelect('COUNT(exec.id)', 'total')
+      .groupBy('tecnico.id')
+      .addGroupBy('tecnico.nome')
+      .orderBy('total', 'DESC')
+      .limit(5)
+      .getRawMany();
+  }
+
+  async getTopEquipamentos() {
+    const umAnoAtras = new Date();
+    umAnoAtras.setFullYear(umAnoAtras.getFullYear() - 1);
+
+    return this.execucaoRepo.createQueryBuilder('exec')
+      .innerJoin('exec.plano', 'plano')
+      .innerJoin('plano.equipamento', 'equipamento')
+      .select('equipamento.nome', 'nome')
+      .addSelect('equipamento.codigo', 'codigo')
+      .addSelect('COUNT(exec.id)', 'total')
+      .where('exec.data_execucao >= :umAnoAtras', { umAnoAtras })
+      .groupBy('equipamento.id')
+      .addGroupBy('equipamento.nome')
+      .addGroupBy('equipamento.codigo')
+      .orderBy('total', 'DESC')
+      .limit(5)
+      .getRawMany();
+  }
 }
