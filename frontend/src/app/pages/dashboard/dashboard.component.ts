@@ -17,57 +17,56 @@ import { AuthService } from '../../services/auth.service';
       </div>
 
       <!-- Métricas Superiores -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10" [ngClass]="{'lg:grid-cols-5': !isSupervisor()}">
-        <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-red-200">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="p-3 bg-red-100 text-red-600 rounded-2xl">⚠️</div>
-            <span class="text-xs font-bold text-gray-400 uppercase">Planos Atrasados</span>
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10">
+        <div class="bg-white p-5 rounded-3xl shadow-sm border-2 border-red-200 flex flex-col h-full">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 bg-red-100 text-red-600 rounded-xl text-sm">⚠️</div>
+            <span class="text-[10px] font-bold text-gray-400 uppercase leading-tight">Planos Atrasados</span>
           </div>
-          <p class="text-3xl font-black text-gray-900">{{ metricas()?.atrasadas || 0 }}</p>
+          <p class="text-2xl font-black text-gray-900 mt-auto">{{ metricas()?.atrasadas || 0 }}</p>
         </div>
         
-        <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-orange-200">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="p-3 bg-orange-100 text-orange-600 rounded-2xl">⏳</div>
-            <span class="text-xs font-bold text-gray-400 uppercase">Próximos 7 dias</span>
+        <div class="bg-white p-5 rounded-3xl shadow-sm border-2 border-orange-200 flex flex-col h-full">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 bg-orange-100 text-orange-600 rounded-xl text-sm">⏳</div>
+            <span class="text-[10px] font-bold text-gray-400 uppercase leading-tight">Próximos 7 dias</span>
           </div>
-          <p class="text-3xl font-black text-gray-900">{{ metricas()?.previstas7Dias || 0 }}</p>
+          <p class="text-2xl font-black text-gray-900 mt-auto">{{ metricas()?.previstas7Dias || 0 }}</p>
         </div>
 
-        <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-green-200">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="p-3 bg-green-100 text-green-600 rounded-2xl">✅</div>
-            <span class="text-xs font-bold text-gray-400 uppercase">Planos em Dia</span>
+        <div class="bg-white p-5 rounded-3xl shadow-sm border-2 border-green-200 flex flex-col h-full">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 bg-green-100 text-green-600 rounded-xl text-sm">✅</div>
+            <span class="text-[10px] font-bold text-gray-400 uppercase leading-tight">Planos em Dia</span>
           </div>
-          <p class="text-3xl font-black text-gray-900">{{ metricas()?.emDia || 0 }}</p>
+          <p class="text-2xl font-black text-gray-900 mt-auto">{{ metricas()?.emDia || 0 }}</p>
         </div>
 
-        <div class="bg-white p-6 rounded-3xl shadow-sm border-2" [ngClass]="getConformidadeStatus().border">
-          <div class="flex items-center gap-4 mb-4">
-            <div [ngClass]="getConformidadeStatus().bg + ' ' + getConformidadeStatus().text" class="p-3 rounded-2xl">
+        <div class="bg-white p-5 rounded-3xl shadow-sm border-2 flex flex-col h-full" [ngClass]="getConformidadeStatus().border">
+          <div class="flex items-center gap-3 mb-3">
+            <div [ngClass]="getConformidadeStatus().bg + ' ' + getConformidadeStatus().text" class="p-2 rounded-xl text-sm">
               {{ getConformidadeStatus().icon }}
             </div>
-            <span class="text-xs font-bold text-gray-400 uppercase">Conformidade</span>
+            <span class="text-[10px] font-bold text-gray-400 uppercase leading-tight">Conformidade</span>
           </div>
-          <p class="text-3xl font-black text-gray-900">{{ metricas()?.conformidadeMensal || 0 }}%</p>
+          <p class="text-2xl font-black text-gray-900 mt-auto">{{ metricas()?.conformidadeMensal || 0 }}%</p>
         </div>
 
-        <div class="bg-white p-6 rounded-3xl shadow-sm border-2 border-blue-200">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="p-3 bg-blue-100 text-blue-600 rounded-2xl">📊</div>
-            <span class="text-xs font-bold text-gray-400 uppercase">Execuções/Mês</span>
+        <div class="bg-white p-5 rounded-3xl shadow-sm border-2 border-blue-200 flex flex-col h-full">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 bg-blue-100 text-blue-600 rounded-xl text-sm">📊</div>
+            <span class="text-[10px] font-bold text-gray-400 uppercase leading-tight">Execuções/Mês</span>
           </div>
-          <p class="text-3xl font-black text-gray-900">{{ metricas()?.execucoesNoMes || 0 }}</p>
+          <p class="text-2xl font-black text-gray-900 mt-auto">{{ metricas()?.execucoesNoMes || 0 }}</p>
         </div>
 
-        <!-- Disponibilidade (OEE) - Escondido para Supervisor -->
-        <div *ngIf="!isSupervisor()" class="bg-gray-900 p-6 rounded-3xl shadow-lg border-2 border-blue-600">
-          <div class="flex items-center gap-4 mb-4">
-            <div class="p-3 bg-blue-500 text-white rounded-2xl text-xs font-bold">OEE</div>
-            <span class="text-xs font-bold text-blue-400 uppercase">Disponibilidade</span>
+        <!-- Disponibilidade (OEE) -->
+        <div *ngIf="!isSupervisor()" class="bg-gray-900 p-5 rounded-3xl shadow-lg border-2 border-blue-600 flex flex-col h-full">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="p-2 bg-blue-500 text-white rounded-xl text-[8px] font-black">OEE</div>
+            <span class="text-[10px] font-bold text-blue-400 uppercase leading-tight">Disponibilidade</span>
           </div>
-          <p class="text-3xl font-black text-white">{{ disponibilidade()?.percentualDisponibilidade || 0 }}%</p>
-          <p class="text-[10px] text-blue-300 font-bold mt-2">{{ disponibilidade()?.equipamentosDisponiveis }} de {{ disponibilidade()?.totalEquipamentos }} operando</p>
+          <p class="text-2xl font-black text-white mt-auto">{{ disponibilidade()?.percentualDisponibilidade || 0 }}%</p>
         </div>
       </div>
 
